@@ -8,4 +8,13 @@ class CustomerSerializers(ModelSerializer):
         model = Customer 
         fields = '__all__'
 
+class ProductSerializers(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+class ProductCategorySerializers(ModelSerializer):
+    class Meta:
+        model = ProductCategory
+        fields = '__all__'
+
     
