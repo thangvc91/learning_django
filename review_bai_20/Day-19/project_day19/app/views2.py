@@ -112,4 +112,24 @@ def return_book(request):
     body = request.POST   
     username = body.get('username')
     barcode = body.get('barcode')
+    #filter book tra lai
+    bookborrow = BookBorrow.objects.filter(
+        user__username=username,
+        book_copy__barcode = barcode,
+        status = BookBorrow.Status.BORROWING
+    ).first()
+    #change status book_copy.status = AVAILABLE
+    #change so luong sach 
+    if not bookborrow:
+        return HttpResponse(json.dumps({'error':'sach da tra roi'}))
+    #change bookborrow status -> RETURN 
+    bookborrow.status = BookBorrow.Status.RETURNED
+    bookborrow.save()
+    #change book copy status 
+    bookborrow.book_copy.status = BookCopy.Status.AVAILABLE
+    bookborrow.book_copy.save()
+    #change so luong book
+    bookborrow.book_copy.book.current_qty +=1
+    bookborrow.book_copy.book.save()
+    return HttpResponse(json.dumps({'success':True}))
     
