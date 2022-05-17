@@ -1,7 +1,6 @@
 
 import http
 import json
-from unittest import result
 
 from django.db.models import Q
 from django.shortcuts import render, HttpResponse
@@ -55,5 +54,23 @@ def test_post(request):
 
 @csrf_exempt
 def muon_sach(request):
+    #TODO  
+    #tao 1 bang ghi book_borrow 
+    # giam so luong sach available book book_qty -=1
+    # doi trang thai book_copy _status _BORROW 
     
+    body = request.POST  
+    username = body.get('username')
+    barcode = body.get('barcode')
+    user = User.objects.filter(
+        username = username
+    ).first()
+    book_copy = BookCopy.objects.filter(
+        barcode = barcode
+    ).first()
+    if not user:
+        return HttpResponse(json.dumps({'error':'Nguoi dung ko ton tai'}))
+    if not book_copy:
+        return HttpResponse(json.dumps({'error':'sach da tra'})   )
+        
     return ...
