@@ -1,0 +1,13 @@
+{
+	"customer phone" :"34455757",
+	"date" : 23-5-2012",
+	"item":[
+	   {"id":"1001", "qty":5},
+	   {"id":"1002", "qty":7},
+	   {"id":"1003", "qty":4}
+	]
+}
+
+create_customer
+
+{"phone": "0132132132","fullname": "Nguyen Van An","address": "TP.HCM","gender": "MALE"}

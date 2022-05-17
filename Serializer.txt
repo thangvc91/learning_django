@@ -1,0 +1,6 @@
+Class (models) <—> serializer <—> JSON
+
+
+GET: DB —> models —> JSON : seralize
+
+POST: User data(JSON) —> models (class) —> save DB : deserialize
