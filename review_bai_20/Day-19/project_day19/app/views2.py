@@ -72,5 +72,19 @@ def muon_sach(request):
         return HttpResponse(json.dumps({'error':'Nguoi dung ko ton tai'}))
     if not book_copy:
         return HttpResponse(json.dumps({'error':'sach da tra'})   )
-        
-    return ...
+    book_borrow = BookBorrow()
+    #prepare ban book_borrow 
+    book_borrow.borrow_date = datetime.now()
+    book_borrow.user = user
+    book_borrow.book_copy = book_copy
+    book_borrow.status = BookBorrow.Status.BORROWING 
+    book_borrow.deadline = datetime.now() + timedelta(days=book_copy.book.max_duration)  
+    book_borrow.book_name = book_copy.book
+    book_borrow.save()
+    
+    book_copy.status = BookCopy.Status.BORROW
+    book_copy.save()
+    
+    book_copy.book.current_qty -= 1
+    book_copy.book.save()
+    return HttpResponse(json.dumps({'success':True}))
