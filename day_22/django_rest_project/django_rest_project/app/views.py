@@ -1,4 +1,5 @@
 
+import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
@@ -20,3 +21,22 @@ def create_customer(request):
           return Response(serializer.errors, status=400)    
    serializer.save()
    return Response({'success':True})
+@api_view(['GET'])
+def search_customer(request):
+       params = request.GET 
+       keyword = params.get('keyword','')
+       customerlist = Customer.objects.filter(
+              fullname__icontains=keyword
+       )
+       #viet kieu cu 
+       # res = []
+       # for cus in customerlist:
+       #        res.append({
+       #            'phone':cus.phone,
+       #            'fullname':cus.fullname,
+       #            'address':cus.address,
+       #        })
+       #~~~~~~~~~~~~~~~~~~
+       #viet bang serializers 
+       res = CustomerSerializers(customerlist, many=True).data
+       return Response(res)
