@@ -88,3 +88,28 @@ def muon_sach(request):
     book_copy.book.current_qty -= 1
     book_copy.book.save()
     return HttpResponse(json.dumps({'success':True}))
+
+@csrf_exempt
+def get_user_borrow_list(request):
+    body = request.GET  
+    username = body.get('username')
+    bookborrow = BookBorrow.objects.filter(
+        user__username = username
+    )
+    res = []
+    for b in bookborrow:
+        res.append(
+            {
+                'book_name':b.book_copy.book.name,
+                'borrow_date':b.borrow_date.strftime("%d/%m/%Y"),
+                'barcode': b.book_copy.barcode
+            }
+        )
+    return HttpResponse(json.dumps(res))
+
+@csrf_exempt
+def return_book(request):
+    body = request.POST   
+    username = body.get('username')
+    barcode = body.get('barcode')
+    

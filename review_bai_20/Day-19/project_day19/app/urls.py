@@ -10,7 +10,7 @@ urlpatterns = [
    path('test-post', test_post),
    # # path('get-user-borrow-list',get_user_borrow_list),
    path('muon-sach',muon_sach),
-   # path('get-user-borrow-list',get_user_borrow_list),
+   path('get-user-borrow-list',get_user_borrow_list),
    # path('return-book',return_book),
 ]
 
