@@ -16,6 +16,11 @@ class CustomerSerializer(ModelSerializer):
    class Meta:
       model = Customer
       fields = '__all__'
+class UserSerializer(ModelSerializer):
+   class Meta:
+      model = User
+      fields = '__all__'
+      
 
 @api_view(['GET'])
 def search_customer(request):
@@ -26,6 +31,8 @@ def search_customer(request):
    )
    res = CustomerSerializer(customer_list, many = True).data 
    return Response(res)
+
+
 @api_view(['POST'])
 def create_customer(request):
    data = request.data 
@@ -41,3 +48,29 @@ def create_customer(request):
    customer.save()
    return Response({'sucess':True})
    
+@api_view(['GET'])
+def search_user(request):
+   params = request.GET  
+   keyword = params.get('keyword','')
+   userlist = User.objects.filter(
+      fullname__icontains=keyword
+   )
+   userlist = User.objects.filter(
+      fullname__icontains=keyword
+   )
+   res = UserSerializer(userlist, many = True).data 
+   return Response(res)
+@api_view(['POST'])
+def create_user(request):
+   data = request.data 
+   phone = data.get('phone')
+   fullname = data.get('fullname')
+   email = data.get('email')
+   users = User()
+   if not phone:
+      return Response({'error':'khong co sdt'})
+   users.phone = phone  
+   users.fullname = fullname 
+   users.email = email
+   users.save()
+   return Response({'sucess':True})
