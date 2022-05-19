@@ -1,0 +1,13 @@
+{
+    "customer_id": 1,
+    "cart_items": [
+        {
+            "product_code": "00001",
+            "qty": 2
+        },
+        {
+            "product_code": "00002",
+            "qty": 3
+        }
+    ]
+}
